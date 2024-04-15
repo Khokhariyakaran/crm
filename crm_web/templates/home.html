@@ -1,5 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Welcome To CRM Project</h1>
+  <div class="col-md-6 offset-md-3">
+    {% if user.is_authenticated %}
+      {% comment %} <h1>Welcome To CRM Project</h1> {% endcomment %}
+      <h1>Records</h1><br />
+      {% if records %}
+        {% for record in records %}
+          {{ record.id }}
+          {{ record.created_at }}
+          {{ record.first_name }}
+          {{ record.last_name }}
+          {{ record.email }}
+          {{ record.phone }}
+          {{ record.address }}
+          {{ record.city }}
+          {{ record.state }}
+          {{ record.zipcode }}
+        {% endfor %}
+      {% endif %}
+    {% else %}
+      <h1>Login</h1><br />
+
+      <form method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <input type="text" class="form-control" name="username" placeholder="Username" required />
+        </div>
+        <div class="mb-3">
+          <input type="password" class="form-control" name="password" placeholder="Password" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    {% endif %}
+  </div>
 {% endblock %}
